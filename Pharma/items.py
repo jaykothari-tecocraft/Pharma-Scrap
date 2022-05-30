@@ -8,5 +8,7 @@ import scrapy
 
 class PharmaItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
+    name = scrapy.Field()
+    img = scrapy.Field()
+    # mg = scrapy.Field()
     pass

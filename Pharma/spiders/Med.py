@@ -1,15 +1,16 @@
 import scrapy
 import requests
 from bs4 import BeautifulSoup
+from ..items import PharmaItem
 
 class MedSpider(scrapy.Spider):
     name = 'Med'
     allowed_domains = ['mcareexports.com']
     start_urls = ['http://mcareexports.com/our-products/']
     page = 2
-
+    
     def parse(self, response):
-
+        items= PharmaItem()
         tags = response.css('span.nxowoo-box')
 
         for one in tags:
@@ -19,13 +20,12 @@ class MedSpider(scrapy.Spider):
             # url = f'https://mcareexports.com/our-products/{med_name}/'
             # res = requests.get(url)
             # mg = self.inside(res.text)
-            yield {
-                'title': title,
-                'img':img,
-                # 'mg':mg
-                }
+            items['name'] = title
+            items['img'] =  img
 
-        if self.page < 3:
+            yield items
+
+        if self.page < 849:
             next_url = f'https://mcareexports.com/our-products/page/{self.page}/'
             print(f'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Page : {self.page} <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
